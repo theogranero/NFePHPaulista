@@ -446,13 +446,15 @@ class NFe
 
     $header->appendChild( $xmlDoc->createElement( 'transacao', 'false' ) );
 
-    foreach ( $nfeNumbers as $nfeNumber ) {
+    foreach ( $nfeNumbers as $codVerification => $nfeNumber ) {
       $detail = $xmlDoc->createElement( 'Detalhe' );
       $root->appendChild( $detail );
 
       $nfeKey = $xmlDoc->createElement( 'ChaveNFe' ); // 1-1
       $nfeKey->appendChild( $xmlDoc->createElement( 'InscricaoPrestador', $this->providerTaxpayerRegister ) ); // 1-1
       $nfeKey->appendChild( $xmlDoc->createElement( 'NumeroNFe', $nfeNumber ) ); // 1-1
+
+      $nfeKey->appendChild( $xmlDoc->createElement( 'CodigoVerificacao', $codVerification ) );
 
       $content = sprintf( '%08s', $this->providerTaxpayerRegister) .
                  sprintf( '%012s', $nfeNumber );
@@ -479,7 +481,7 @@ class NFe
 
     $root = $xmlDoc->documentElement;
 
-    $detailNfe = $xmlDoc->createElement( 'Detalhe' );
+    $detailNfe = $xmlDoc->createElementNS('', 'Detalhe' );
     $root->appendChild( $detailNfe );
 
     $nfeKey = $xmlDoc->createElement( 'ChaveNFe' ); // 1-1
@@ -487,7 +489,7 @@ class NFe
     $nfeKey->appendChild( $xmlDoc->createElement( 'NumeroNFe', $nfeNumber) ); // 1-1
     $detailNfe->appendChild( $nfeKey );
 
-    $detailRps = $xmlDoc->createElement( 'Detalhe' );
+    $detailRps = $xmlDoc->createElementNS('', 'Detalhe' );
     $root->appendChild( $detailRps );
 
     $rpsKey = $xmlDoc->createElement( 'ChaveRPS' ); // 1-1
